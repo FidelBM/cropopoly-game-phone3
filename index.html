@@ -5,49 +5,57 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | granja_juego</title>
   
-<script src='./InworldMicrophone.js'></script>
-</head>
+    <script src='./InworldMicrophone.js'></script>
+  </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=1280 height=720 tabindex="-1" style="width: 1280px; height: 720px; background: #231F20"></canvas>
+    <canvas id="unity-canvas" tabindex="-1" style="background: #231F20;"></canvas>
     <script src="Build/juego2.loader.js"></script>
     <script>
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    // Mobile device style: fill the whole browser client area with the game canvas:
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.getElementsByTagName('head')[0].appendChild(meta);
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
 
-    var canvas = document.querySelector("#unity-canvas");
-    var targetWidth = 1920; // Resolución horizontal deseada
-    var targetHeight = 1080; // Resolución vertical deseada
+        var canvas = document.querySelector("#unity-canvas");
+        var targetWidth = 1920; // Resolución horizontal deseada
+        var targetHeight = 1080; // Resolución vertical deseada
 
-    var screenWidth = window.innerWidth;
-    var screenHeight = window.innerHeight;
+        function resizeCanvas() {
+          var screenWidth = window.innerWidth;
+          var screenHeight = window.innerHeight;
 
-    var aspectRatio = targetWidth / targetHeight;
-    var screenAspectRatio = screenWidth / screenHeight;
+          var aspectRatio = targetWidth / targetHeight;
+          var screenAspectRatio = screenWidth / screenHeight;
 
-    var canvasWidth, canvasHeight;
+          var canvasWidth, canvasHeight;
 
-    if (screenAspectRatio > aspectRatio) {
-        canvasHeight = screenHeight;
-        canvasWidth = screenHeight * aspectRatio;
-    } else {
-        canvasWidth = screenWidth;
-        canvasHeight = screenWidth / aspectRatio;
-    }
+          if (screenAspectRatio > aspectRatio) {
+            canvasHeight = screenHeight;
+            canvasWidth = screenHeight * aspectRatio;
+          } else {
+            canvasWidth = screenWidth;
+            canvasHeight = screenWidth / aspectRatio;
+          }
 
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
-    canvas.style.position = "fixed";
-    canvas.style.left = "50%";
-    canvas.style.top = "50%";
-    canvas.style.transform = "translate(-50%, -50%)";
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
 
-    document.body.style.textAlign = "left";
-}
+          canvas.style.width = canvasWidth + "px";
+          canvas.style.height = canvasHeight + "px";
+          canvas.style.position = "fixed";
+          canvas.style.left = "50%";
+          canvas.style.top = "50%";
+          canvas.style.transform = "translate(-50%, -50%)";
+        }
 
+        // Llama a resizeCanvas() una vez para establecer el tamaño inicial
+        resizeCanvas();
+
+        // Llama a resizeCanvas() cada vez que se redimensione la ventana del navegador
+        window.addEventListener("resize", resizeCanvas);
+      }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/juego2.data",
@@ -63,3 +71,4 @@
     </script>
   </body>
 </html>
+
